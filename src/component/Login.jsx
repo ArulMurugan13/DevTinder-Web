@@ -1,10 +1,15 @@
-/* eslint-disable no-unused-vars */
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
-  const [email, setemailId] = useState("Arul@gmail.com");
+  const [email, setemail] = useState("Arul@gmail.com");
   const [password, setpassword] = useState("ArulMurugan@13");
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
 
   const handleLogin = async () => {
     try {
@@ -16,6 +21,11 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      console.log(res.data);
+      dispatch( addUser(res.data));
+      navigate("/");
+      
+     
     } catch (err) {
       console.error(err);
     }
@@ -30,7 +40,7 @@ const Login = () => {
         type="email"
         className="input"
         placeholder="Email"
-        onChange={(e) => setemailId(e.target.value)}
+        onChange={(e) => setemail(e.target.value)}
       />
 
       <label className="label">Password</label>
