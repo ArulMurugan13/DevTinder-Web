@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import Navbar from "./component/Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -22,10 +23,9 @@ const Body = () => {
       const res = await axios.get(BACKEND_URL + "/profile/view", {
         withCredentials: true,
       });
-      dispatch(addUser(res.data));
+      dispatch(addUser(res?.data?.data));
     } catch (err) {
       navigate("/login");
-      console.log(err);
     }
   };
 
