@@ -16,6 +16,7 @@ const EditProfile = ({ user }) => {
   const [about, setabout] = useState(user.about);
   const [skills, setskills] = useState(user.skills);
   const [photourl, setphotourl] = useState(user.photourl);
+  const [showToast , setshowToast] = useState(false);
 
   const handleSave = async () => {
     try {
@@ -25,6 +26,12 @@ const EditProfile = ({ user }) => {
         { withCredentials: true }
       );
       dispatch(addUser(res?.data?.data));
+      setshowToast(true);
+
+      setTimeout(()=>{
+        setshowToast(false);
+      },2000);
+
     } catch (err) {
       console.log(err.message);
     }
@@ -32,7 +39,6 @@ const EditProfile = ({ user }) => {
 
   return (
     <div className="flex justify-center items-stretch gap-8 mt-10 px-6 h-3/4">
-      {/* Form Section */}
       <div className="w-[400px]">
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-6 shadow-md">
           <label className="label">First Name</label>
@@ -89,10 +95,14 @@ const EditProfile = ({ user }) => {
         </fieldset>
       </div>
 
-      {/* Preview Card Section */}
       <div className="w-[400px]">
-        <FeedCard user={{ fname, lname, about, photourl , age }} />
+        <FeedCard user={{ fname, lname, about, photourl, age }} />
       </div>
+      {showToast && <div className="toast toast-top toast-center">
+        <div className="alert alert-success">
+          <span>Profile Updated successfully.</span>
+        </div>
+      </div>}
     </div>
   );
 };

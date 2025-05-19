@@ -15,9 +15,15 @@ const Feed = () => {
     dispatch(addFeed(res?.data?.data));
   };
 
+
   useEffect(() => {
-    getFeed();
+    if (!feed) {
+      getFeed();
+    }
+  
   }, []);
+
+
 
   return (
     <div className="flex justify-center mt-10">
