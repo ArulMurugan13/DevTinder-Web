@@ -37,9 +37,10 @@ const Navbar = () => {
           🧑🏻‍💻DevTinder
         </Link>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 mr-10">
         {user && (
-          <div className="dropdown dropdown-end ml-9">
+          <div className="dropdown dropdown-end ml-9 flex">
+            <h3 className="flex  items-center justify-center mr-5">{user.fname+" "+ user.lname}</h3>
             <div
               tabIndex={0}
               role="button"
