@@ -11,13 +11,11 @@ import { addUser } from "./utils/userSlice";
 const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((store)=> store.user);
-
+  const userData = useSelector((store) => store.user);
 
   const fetchUser = async () => {
     try {
-      if(userData)
-      {
+      if (userData) {
         return;
       }
       const res = await axios.get(BACKEND_URL + "/profile/view", {
@@ -30,7 +28,7 @@ const Body = () => {
   };
 
   useEffect(() => {
-      fetchUser();
+    fetchUser();
   }, []);
 
   return (

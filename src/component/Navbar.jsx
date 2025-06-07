@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../utils/userSlice";
 import axios from "axios";
 import { BACKEND_URL } from "../utils/constants";
+import { deleteConnections } from "../utils/connectionSlice";
+import { deleteFeed } from "../utils/feedSlice";
+import { deleteRequests } from "../utils/requestSlice";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
@@ -15,6 +18,9 @@ const Navbar = () => {
     try{
       await axios.post(BACKEND_URL+"/logout",{},{withCredentials:true});
       dispatch(removeUser());
+      dispatch(deleteConnections());
+      dispatch(deleteFeed());
+      dispatch(deleteRequests());
       navigate("/login");
       
     }
@@ -33,37 +39,47 @@ const Navbar = () => {
       </div>
       <div className="flex gap-2">
         {user && (
-            <div className="dropdown dropdown-end ml-9">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
-                <div className="w-10 rounded-full">
-                  <img alt="Tailwind CSS Navbar component" src={photourl} />
-                </div>
+          <div className="dropdown dropdown-end ml-9">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img alt="Tailwind CSS Navbar component" src={photourl} />
               </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-              >
-                <li>
-                  <Link to="/profile">Profile</Link>
-                </li>
-                <li>
-                  <Link to="/connections">Connections</Link>
-                </li>
-                <li>
-                  <Link to="/requests">Requests</Link>
-                </li>
-                <li>
-                  <Link to="/login" onClick={handleLogout}>
-                    Log Out
-                  </Link>
-                </li>
-              </ul>
             </div>
-          
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <Link to="/" className="text-base">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/profile" className="text-base">
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/connections" className="text-base">
+                  Connections
+                </Link>
+              </li>
+              <li>
+                <Link to="/requests" className="text-base">
+                  Requests
+                </Link>
+              </li>
+              <li>
+                <Link to="/login" className="text-base" onClick={handleLogout}>
+                  Log Out
+                </Link>
+              </li>
+            </ul>
+          </div>
         )}
       </div>
     </div>

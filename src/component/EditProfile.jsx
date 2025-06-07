@@ -7,6 +7,8 @@ import { addUser } from "../utils/userSlice";
 import FeedCard from "./FeedCard";
 
 const EditProfile = ({ user }) => {
+
+  const {_id} = user;
   const dispatch = useDispatch();
 
   const [fname, setfname] = useState(user.fname);
@@ -96,7 +98,7 @@ const EditProfile = ({ user }) => {
       </div>
 
       <div className="w-[400px]">
-        <FeedCard user={{ fname, lname, about, photourl, age }} />
+        <FeedCard user={{ fname, lname, about, photourl, age,_id }} />
       </div>
       {showToast && <div className="toast toast-top toast-center">
         <div className="alert alert-success">

@@ -1,48 +1,61 @@
-import React, { useEffect } from 'react'
-import { BACKEND_URL } from '../utils/constants'
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { addConnections } from '../utils/connectionSlice';
+import React, { useEffect } from "react";
+import { BACKEND_URL } from "../utils/constants";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addConnections } from "../utils/connectionSlice";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
-        const dispatch = useDispatch();
-        const connections = useSelector(store => store.connections);
+  const dispatch = useDispatch();
+  const connections = useSelector((store) => store.connections);
 
-    const fetchConnections = async ()=>{
-        const res = await axios.get(BACKEND_URL+"/connections",{withCredentials:true});
-        console.log(res?.data?.data);
-        dispatch(addConnections(res?.data?.data));
-    }
+  const fetchConnections = async () => {
+    const res = await axios.get(BACKEND_URL + "/connections", {
+      withCredentials: true,
+    });
+    dispatch(addConnections(res?.data?.data));
+  };
 
-    useEffect(()=>{
-        fetchConnections();
-    },[]);
+  useEffect(() => {
+    fetchConnections();
+  }, []);
+
+  if (connections && connections.length === 0) {
+    return (
+      <h1 className="flex justify-center mt-10 font-bold text-2xl">
+        No Connections! Add Some <Link to="/">Friends</Link>
+      </h1>
+    );
+  }
 
   return (
-    <div className=''>
-      <div className=" flex justify-center">
-        <h1 className="text-2xl my-10">Connections</h1>
-      </div>
-    <div className='flex flex-col items-center '>
-        {connections && (
-            connections.map((con)=>{
-                return (
-                <div key={con?._id} className='my-5 p-3 flex justify-center w-1/2 bg-neutral rounded-lg shadow-2xl '>
-                    <div className='mr-10'>
-                        <img src={con?.photourl} alt={con?.fname} className='w-16 h-16'/>
-                    </div>
-                    <div>
-                    <h2>{con?.fname}</h2>
-                    <p>{con?.about}</p>
-                    </div>
+    <div className="text-center justify-between">
+      <h1 className="text-3xl my-10">Connections</h1>
+      <div className="h-96 overflow-y-auto">
+        {connections &&
+          connections.map((connection) => {
+            const { _id, fname, lname, photourl, age, about, gender } =
+              connection;
+
+            return (
+              <div
+                key={_id}
+                className="my-5 p-3  flex items-center w-1/3 mx-auto  bg-neutral rounded-lg shadow-2xl"
+              >
+                <div className="mx-5">
+                  <img src={photourl} alt={fname} className="w-16 h-16" />
                 </div>
-                );
-            })
-    )}
-    </div>
-      
+                <div className="text-left mx-10">
+                  <h2 className="font-bold text-xl">{fname + " " + lname}</h2>
+                  <h2>{age && gender && age + " , " + gender}</h2>
+                  <p>{about}</p>
+                </div>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
-}
+};
 
-export default Connections
+export default Connections;
